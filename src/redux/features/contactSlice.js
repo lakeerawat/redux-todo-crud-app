@@ -39,32 +39,35 @@ export const contactSlice = createSlice({
         email: "sakshi72@gmail.com",
         phone: "+917205782521",
         status: "Inactive",
-      },      {
+      },
+      {
         id: "4c4c1134-bd6b-47ae-8cd3-4c375bded904",
         name: "akshay mehra",
         email: "akshay009@gmail.com",
         phone: "+919532540833",
-        status: "active",
-      },      {
+        status: "Active",
+      },
+      {
         id: "4c4c1134-bd6b-47ae-8cd3-4c375bded103",
         name: "shreya k",
         email: "k.shreya@gmail.com",
         phone: "+918299559933",
-        status: "active",
-      },      {
+        status: "Active",
+      },
+      {
         id: "4c4c1134-bd6b-47ae-8cd3-4c375bded302",
         name: "arpit bose",
         email: "arpit@gmail.com",
         phone: "+919648338887",
         status: "Inactive",
-      },      {
+      },
+      {
         id: "4c4c1134-bd6b-47ae-8cd3-4c375bdee411",
         name: "abhishek singh",
         email: "singhabhi@gmail.com",
         phone: "+917769556746",
-        status: "active",
+        status: "Active",
       },
-      
     ],
     filter: "All",
     contact: {
@@ -88,7 +91,7 @@ export const contactSlice = createSlice({
         (item) => item.id !== action.payload
       );
     },
-    
+
     updateContact: (state, action) => {
       state.contacts = state.contacts.map((item) =>
         item.id === action.payload.id ? action.payload : item

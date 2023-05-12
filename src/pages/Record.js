@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Record.css";
 import { useDispatch } from "react-redux";
 import { deleteContact } from "../redux/features/contactSlice";
 import { toast } from "react-toastify";
 
-const Record = ({ data }) => {
-  console.log(data);
+const Record = ({ data, filterData }) => {
+  const[records,setRecords] = useState(data);
+  useEffect(()=>{
+    setRecords(data);
+  },[data])
   const dispatch = useDispatch();
   const onDeleteContact = (id) => {
     if (
@@ -18,9 +21,9 @@ const Record = ({ data }) => {
   };
   return (
     <>
-      {data?.length === 0 ? (
+      {records?.length === 0 ? (
         <div>
-          <h1>Sorry data found!!</h1>{" "}
+          <h1>Sorry No data found!!</h1>{" "}
           {/* <Link to="/">
             <button className="btn btn-edit">Go Back</button>
           </Link> */}
@@ -43,31 +46,59 @@ const Record = ({ data }) => {
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => {
-                return (
-                  <tr key={item.id}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{item.name}</td>
-                    <td>{item.email}</td>
-                    <td>{item.phone}</td>
-                    <td>{item.status}</td>
-                    <td>
-                      <Link to={`/update/${item.id}`}>
-                        <button className="btn btn-edit">Edit</button>
-                      </Link>
-                      <button
-                        className="btn btn-delete"
-                        onClick={() => onDeleteContact(item.id)}
-                      >
-                        Delete
-                      </button>
-                      <Link to={`/view/${item.id}`}>
-                        <button className="btn btn-view">View</button>
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filterData === "Reset" || filterData === undefined
+                ? records.map((item, index) => {
+                    return (
+                      <tr key={item.id}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{item.name}</td>
+                        <td>{item.email}</td>
+                        <td>{item.phone}</td>
+                        <td>{item.status}</td>
+                        <td>
+                          <Link to={`/update/${item.id}`}>
+                            <button className="btn btn-edit">Edit</button>
+                          </Link>
+                          <button
+                            className="btn btn-delete"
+                            onClick={() => onDeleteContact(item.id)}
+                          >
+                            Delete
+                          </button>
+                          <Link to={`/view/${item.id}`}>
+                            <button className="btn btn-view">View</button>
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : records
+                    .filter((item) => item.status === filterData)
+                    .map((item, index) => {
+                      return (
+                        <tr key={item.id}>
+                          <th scope="row">{index + 1}</th>
+                          <td>{item.name}</td>
+                          <td>{item.email}</td>
+                          <td>{item.phone}</td>
+                          <td>{item.status}</td>
+                          <td>
+                            <Link to={`/update/${item.id}`}>
+                              <button className="btn btn-edit">Edit</button>
+                            </Link>
+                            <button
+                              className="btn btn-delete"
+                              onClick={() => onDeleteContact(item.id)}
+                            >
+                              Delete
+                            </button>
+                            <Link to={`/view/${item.id}`}>
+                              <button className="btn btn-view">View</button>
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    })}
             </tbody>
           </table>
         </div>
